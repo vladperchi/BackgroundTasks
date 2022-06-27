@@ -1,6 +1,6 @@
 # Background tasks with hosted services in ASP.NET Core.
 
-In ASP.NET Core, background tasks can be implemented as hosted services. A hosted service is a class with background task logic that implements the IHostedService interface. This article provides three hosted service examples:
+In ASP.NET Core, background tasks can be implemented as hosted services. A hosted service is a class with background task logic that implements the IHostedService interface.
 
 Background task that runs on a timer.
 Hosted service that activates a scoped service. The scoped service can use dependency injection (DI).
@@ -25,7 +25,7 @@ StartAsync should be limited to short running tasks because hosted services are 
 - `StopAsync(CancellationToken)` is triggered when the host is performing a graceful shutdown.
 - StopAsync contains the logic to end the background task. Implement IDisposable and finalizers (destructors) to dispose of any unmanaged resources.
 
-The cancellation token has a default five second timeout to indicate that the shutdown process should no longer be graceful. When cancellation is requested on the token:
+The cancellation token has a default ten second timeout to indicate that the shutdown process should no longer be graceful. When cancellation is requested on the token:
 
 - Any remaining background operations that the app is performing should be aborted.
 - Any methods called in StopAsync should return promptly.
