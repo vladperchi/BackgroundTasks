@@ -1,6 +1,4 @@
-# About This Project
-
-Background tasks with hosted services in ASP.NET Core.
+# Background tasks with hosted services in ASP.NET Core.
 
 In ASP.NET Core, background tasks can be implemented as hosted services. A hosted service is a class with background task logic that implements the IHostedService interface. This article provides three hosted service examples:
 
