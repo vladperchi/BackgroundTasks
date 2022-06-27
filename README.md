@@ -14,18 +14,18 @@ The IHostedService interface defines two methods for objects that are managed by
 - StartAsync(CancellationToken)
 - StopAsync(CancellationToken)
 
-`StartAsync`
+## StartAsync
 
-StartAsync(CancellationToken) contains the logic to start the background task. StartAsync is called before:
-
+- `StartAsync(CancellationToken)` contains the logic to start the background task. StartAsync is called before:
 - The app's request processing pipeline is configured.
 - The server is started and IApplicationLifetime.ApplicationStarted is triggered.
 
 StartAsync should be limited to short running tasks because hosted services are run sequentially, and no further services are started until StartAsync runs to completion.
 
-`StartAsync`
+## StopAsync
 
-- StopAsync(CancellationToken) is triggered when the host is performing a graceful shutdown. StopAsync contains the logic to end the background task. Implement IDisposable and finalizers (destructors) to dispose of any unmanaged resources.
+- `StopAsync(CancellationToken)` is triggered when the host is performing a graceful shutdown.
+- StopAsync contains the logic to end the background task. Implement IDisposable and finalizers (destructors) to dispose of any unmanaged resources.
 
 The cancellation token has a default five second timeout to indicate that the shutdown process should no longer be graceful. When cancellation is requested on the token:
 
@@ -33,6 +33,23 @@ The cancellation token has a default five second timeout to indicate that the sh
 - Any methods called in StopAsync should return promptly.
 
 However, tasks aren't abandoned after cancellation is requested—the caller awaits all tasks to complete.
+
+## BackgroundService base class
+
+BackgroundService is a base class for implementing a long running IHostedService.
+
+ExecuteAsync(CancellationToken) is called to run the background service. The implementation returns a Task that represents the entire lifetime of the background service. No further services are started until ExecuteAsync becomes asynchronous, such as by calling `await`. Avoid performing long, blocking initialization work in `ExecuteAsync`. The host blocks in StopAsync(CancellationToken) waiting for ExecuteAsync to complete.
+
+The cancellation token is triggered when `IHostedService.StopAsync` is called. Your implementation of ExecuteAsync should finish promptly when the cancellation token is fired in order to gracefully shut down the service. Otherwise, the service ungracefully shuts down at the shutdown timeout.
+
+## Consuming a scoped service in a background task
+
+To use scoped services within a BackgroundService, create a scope. No scope is created for a hosted service by default.
+
+The scoped background task service contains the background task's logic. In the following example:
+
+- The service is asynchronous. The `DoWork` method returns a Task. For demonstration purposes, a delay of ten seconds is awaited in the DoWork method.
+- An ILogger is injected into the service.
 
 ## Prerequisites
 
