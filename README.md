@@ -2,8 +2,8 @@
 
 In ASP.NET Core, background tasks can be implemented as hosted services. A hosted service is a class with background task logic that implements the IHostedService interface.
 
-Background task that runs on a timer.
-Hosted service that activates a scoped service. The scoped service can use dependency injection (DI).
+- Background task that runs on a timer.
+- Hosted service that activates a scoped service. The scoped service can use dependency injection (DI).
 
 `IHostedService interface`
 
