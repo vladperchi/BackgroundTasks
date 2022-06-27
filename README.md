@@ -74,7 +74,7 @@ To get started, let's follow this short instruction routine:
 <br />
 <p align="center">
   <a href="https://github.com/vladperchi/BackgroundTasks">
-    <img src="https://github.com/vladperchi/BackgroundTasks/blob/master/docs/Images/BackgroundTasks.jpg" alt="Background Tasks Result">
+    <img src="https://github.com/vladperchi/BackgroundTasks/blob/master/docs/image/BackgroundTasks.jpg" alt="Background Tasks Result">
   </a>
 </p>
 
